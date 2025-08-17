@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday Sekar!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(to top right, #ffdee9, #b5fffc);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Quicksand', sans-serif;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      z-index: 1;
+    }
+
+    h1 {
+      font-family: 'Pacifico', cursive;
+      color: #ff4f8b;
+      font-size: 3em;
+      margin-bottom: 25px;
+      transition: opacity 0.5s ease;
+      text-shadow: 2px 2px #fff;
+    }
+
+    /* Envelope Wrapper */
+    .envelope-wrapper {
+      position: relative;
+      width: 320px;
+      height: 220px;
+      cursor: pointer;
+      margin: 0 auto;
+      perspective: 1000px;
+      transition: all 0.8s ease;
+      z-index: 10;
+    }
+
+    /* Popup Mode */
+    .envelope-wrapper.popup {
+      width: 80vw;
+      height: 60vh;
+      transform: scale(1.1);
+    }
+
+    /* Amplop */
+    .envelope {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #ff9eb5, #ffb6c1, #ffd1dc);
+      border-radius: 12px;
+      border: 3px solid #ffd700; /* emas */
+      transform-style: preserve-3d;
+      transition: transform 1s;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      overflow: hidden;
+    }
+
+    /* Flap Atas */
+    .flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      background: linear-gradient(180deg, #f06292, #f8a5c2);
+      transform-origin: top;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      transition: transform 1s;
+      z-index: 2;
+    }
+
+    /* Isi Surat */
+    .letter {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      background: #fff8f0;
+      border-radius: 8px;
+      padding: 18px;
+      font-size: 1.1em;
+      line-height: 1.6em;
+      color: #444;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.8s ease;
+      z-index: 1;
+      text-align: justify;
+      word-wrap: break-word;
+      overflow-y: auto;
+    }
+
+    /* Animasi saat amplop dibuka */
+    .envelope.open .flap {
+      transform: rotateX(-140deg);
+    }
+    .envelope.open .letter {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    footer {
+      margin-top: 30px;
+      font-size: 1em;
+      color: #aa4465;
+      transition: opacity 0.5s ease;
+    }
+
+    /* Hiasan bunga */
+    .flower {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background: radial-gradient(circle, #fff 40%, #ff69b4 70%);
+      border-radius: 50%;
+      box-shadow: 
+        25px 0 #ffb6c1, 
+        -25px 0 #ffb6c1, 
+        0 25px #ffb6c1, 
+        0 -25px #ffb6c1;
+    }
+
+    .flower.top-left { top: -15px; left: -15px; }
+    .flower.top-right { top: -15px; right: -15px; }
+    .flower.bottom-left { bottom: -15px; left: -15px; }
+    .flower.bottom-right { bottom: -15px; right: -15px; }
+
+    /* Hati & bintang animasi */
+    .emoji {
+      position: absolute;
+      font-size: 20px;
+      animation: float 5s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      50% { transform: translateY(-30px) scale(1.2); opacity: 0.7; }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    .emoji.heart { color: #ff4f8b; left: 10%; top: 10%; animation-delay: 0s; }
+    .emoji.star { color: gold; right: 15%; top: 20%; animation-delay: 1s; }
+    .emoji.sparkle { color: #ffccff; left: 20%; bottom: 10%; animation-delay: 2s; }
+
+    /* jika popup, sembunyikan teks luar */
+    .popup-active h1,
+    .popup-active footer {
+      opacity: 0;
+    }
+
+    /* Tombol Musik */
+    #musicToggle {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      background: #ff4f8b;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 10px 18px;
+      cursor: pointer;
+      font-weight: bold;
+      font-family: 'Quicksand', sans-serif;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: background 0.3s;
+      z-index: 999;
+    }
+    #musicToggle:hover {
+      background: #e63e77;
+    }
+
+    /* Foto lucu dalam surat */
+    .letter img {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      aspect-ratio: 16/9;
+      border-radius: 10px;
+      margin-top: 15px;
+      object-fit: cover;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+  </style>
+</head>
+<body>
+
+  <button id="musicToggle">🔇 Musik</button>
+
+  <div class="container" id="container">
+    <h1>🎉 Happy Birthday Sekar! 🎂</h1>
+    
+    <div class="envelope-wrapper" id="envelopeWrapper" onclick="openEnvelope()">
+      <div class="envelope" id="envelope">
+        <div class="flap"></div>
+        <div class="letter">
+          Happy Birthday Sayang 🎈<br><br>
+          Semoga diumur kamu yang 18 ini kamu bisa jadi pribadi yang lebih baik dari sebelumnya dan pastinya
+          nurut sama orangtua. Maaf kayaknya aku gabakal ngetik banyak disini hehehehe, aku harap kita bisa 
+          terus bareng gimanapun caranya, dan juga maafin aku kalo semisal aku ada salah ngomong dan juga 
+          sering buat salah sama kamu sayang. Maaf sekali lagi belum bisa jadi yang terbaik buat kamu 💖<br><br>
+          Aku harap di LDR ini juga kita bisa terus ngejaga hubungan kita dari apapun, komunikasinya lebih baik
+          lagi dari mulai saling ngabarin setiap waktunya, aku gamau kita udahan sayang. Tapi kalo sewaktu waktu 
+          emang jalan kita buat udahan aku harap kita bisa sukses dengan jalan masing masing dengan pasangan yang 
+          berbeda, kalo misalnya hal itu bener terjadu semoga kita masih berteman ya. <br> <br>
+
+          I Love U sayang.
+
+          <!-- Foto Lucu -->
+          <img src="asset/foto.jpg" alt="Foto Lucu">
+        </div>
+
+        <!-- hiasan bunga -->
+        <div class="flower top-left"></div>
+        <div class="flower top-right"></div>
+        <div class="flower bottom-left"></div>
+        <div class="flower bottom-right"></div>
+
+        <!-- animasi icon -->
+        <div class="emoji heart">💖</div>
+        <div class="emoji star">⭐</div>
+        <div class="emoji sparkle">✨</div>
+      </div>
+    </div>
+
+    <footer>💌 Klik amplopnya untuk melihat isi surat!</footer>
+  </div>
+
+  <!-- Musik -->
+  <audio id="bgMusic" loop>
+    <source src="asset/lagu.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const music = document.getElementById("bgMusic");
+    const toggleBtn = document.getElementById("musicToggle");
+    let isPlaying = false;
+
+    toggleBtn.addEventListener("click", () => {
+      if (isPlaying) {
+        music.pause();
+        toggleBtn.textContent = "🔇 Musik";
+      } else {
+        music.play();
+        toggleBtn.textContent = "🔊 Musik";
+      }
+      isPlaying = !isPlaying;
+    });
+
+    function openEnvelope() {
+      const container = document.getElementById('container');
+      const wrapper = document.getElementById('envelopeWrapper');
+      const envelope = document.getElementById('envelope');
+
+      wrapper.classList.toggle('popup');
+      envelope.classList.toggle('open');
+      container.classList.toggle('popup-active');
+
+      // otomatis nyalakan musik saat amplop dibuka pertama kali
+      if (!isPlaying && envelope.classList.contains('open')) {
+        music.play();
+        toggleBtn.textContent = "🔊 Musik";
+        isPlaying = true;
+      }
+    }
+  </script>
+
+</body>
+</html>
